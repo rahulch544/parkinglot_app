@@ -1,12 +1,38 @@
 package com.parkinglot.app.model;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="PARKING_SLOT")
 public class parkingslot {
+	
+	@Id
 	private Integer slot_no;
+	
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "regd_no",referencedColumnName="regd_no", nullable = false)
 	private Vehicle vehicle;
+	
 	private Integer parkinglot_id;
-	private Integer floor;
+
+
+	@ManyToOne
+	@JoinColumn(name="floor_no",nullable=false)
+	private ParkingFloor parkingFloor;
+
+	// private Parkinglot parkinglot;
+
 	private Boolean slot_filled;
 	
+	private Integer floor;
+
 	public parkingslot(Integer slot_no, Vehicle vehicle, Integer parkinglot_id, Integer floor) {
 		super();
 		this.slot_no = slot_no;

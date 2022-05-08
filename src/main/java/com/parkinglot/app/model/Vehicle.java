@@ -1,10 +1,26 @@
 package com.parkinglot.app.model;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="VEHICLE")
 public class Vehicle {
 	
+	@Id
 	private String regd_no;
+	
 	private Integer vehicle_type;
 	private String color;
+	
+	@OneToOne(mappedBy = "vehicle", fetch = FetchType.LAZY,
+	            cascade = CascadeType.ALL)
+    private parkingslot parkingslot;
+
 	public String getRegd_no() {
 		return regd_no;
 	}
@@ -32,7 +48,7 @@ public class Vehicle {
 	@Override
 	public String toString() {
 		return "Vehicle [\nregd_no = " + regd_no + " \n, vehicle_type = " + vehicle_type + " \n, color = " + color
-				+ "\n]";
+				+ " \n, parkingslot = " + parkingslot + "\n]";
 	}
 	
 }

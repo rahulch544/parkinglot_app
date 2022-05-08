@@ -2,19 +2,49 @@ package com.parkinglot.app.model;
 
 import java.util.Arrays;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name="PARKING_FLOOR")
 public class ParkingFloor {
 	
-	private Integer two_wheeler_capacity=0;
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Integer floor_no;
+	
+	private Integer two_wheeler_capacity=0; 
 	private Integer four_wheeler_capacity=0;
-	private Integer floor_no=0;
 	private Integer[] entries;
 	private Integer two_wheeler_slots_filled = 0;
 	private Integer four_wheeler_slots_filled = 0;
 //	private Boolean[] two_wheeler_slots;
+
+	@OneToMany(mappedBy ="parkingFloor",cascade = CascadeType.ALL)	
+	@OrderColumn
 	private parkingslot[] two_wheeler_slots;
+
+
+	
 	private Boolean[] four_wheeler_slots;
 	
 	
+	@ManyToOne
+    @JoinTable(name = "parkinglot_floor",
+    			joinColumns = {@JoinColumn(name = "floor_id",referencedColumnName ="floor_no")},
+				inverseJoinColumns = {@JoinColumn(name = "parkinglot_id", referencedColumnName ="parking_lot_id")}
+    		  )
+	private Parkinglot parkinglot;
 	
 	
 	public ParkingFloor() {
@@ -26,7 +56,7 @@ public class ParkingFloor {
 		super();
 		this.two_wheeler_capacity = two_wheeler_capacity;
 		this.four_wheeler_capacity = four_wheeler_capacity;
-		this.floor_no = floor_no;
+		// this.floor_no = floor_no;
 		this.entries = entries;
 		this.setTwo_wheeler_slots(new parkingslot[two_wheeler_capacity]);
 		Arrays.fill(this.two_wheeler_slots,null);
@@ -42,7 +72,7 @@ public class ParkingFloor {
 		super();
 		this.two_wheeler_capacity = two_wheeler_capacity;
 		this.four_wheeler_capacity = four_wheeler_capacity;
-		this.floor_no = floor_no;
+		// this.floor_no = floor_no;
 		this.entries = new Integer[1];
 		this.setTwo_wheeler_slots(new parkingslot[two_wheeler_capacity]);
 		Arrays.fill(this.two_wheeler_slots,null);
@@ -153,7 +183,16 @@ public class ParkingFloor {
 				+ four_wheeler_capacity + " \n, floor_no = " + floor_no + " \n, entries = " + Arrays.toString(entries)
 				+ " \n, two_wheeler_slots_filled = " + two_wheeler_slots_filled + " \n, four_wheeler_slots_filled = "
 				+ four_wheeler_slots_filled + " \n, two_wheeler_slots = " + Arrays.toString(two_wheeler_slots)
-				+ " \n, four_wheeler_slots = " + Arrays.toString(four_wheeler_slots) + "\n]";
+				+ " \n, four_wheeler_slots = " + Arrays.toString(four_wheeler_slots) + " \n, parkinglot = " + parkinglot
+				+ "\n]";
+	}
+
+	public Parkinglot getParkinglot() {
+		return parkinglot;
+	}
+
+	public void setParkinglot(Parkinglot parkinglot) {
+		this.parkinglot = parkinglot;
 	}
 
 	

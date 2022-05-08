@@ -2,14 +2,37 @@ package com.parkinglot.app.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name="PARKINGLOT")
 public class Parkinglot {
 	
-	static Integer parking_lot_id_seq = 0;
+    
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer parking_lot_id;
+    
+    @Column(name="ADDRESS", length=200, nullable=false,unique=true)
 	public String  address;
+    
+    @Column(name="NO_OF_FLOORS", length=200, nullable=false)
 	public Integer no_of_floors;
+    
+    
+    @OneToMany(mappedBy ="parkinglot",cascade = CascadeType.ALL)
 	public List<ParkingFloor> parking_floors;
+	
 	private Integer two_wheeler_fees = 0;
+	
 	private Integer four_wheeler_fees = 0;
 	
 	
@@ -19,7 +42,7 @@ public class Parkinglot {
 		this.no_of_floors = on_of_floors;
 		this.parking_floors = parking_floors;
 		this.address = address;
-		this.parking_lot_id = getParking_lot_id_seq();
+//		this.parking_lot_id = getParking_lot_id_seq();
 		this.two_wheeler_fees = two_wheeler_fees;
 		this.four_wheeler_fees = four_wheeler_fees;
 		
@@ -27,10 +50,10 @@ public class Parkinglot {
 	
 
 
-	public static Integer getParking_lot_id_seq() {
-		parking_lot_id_seq+=1;
-		return parking_lot_id_seq;
-	}
+//	public static Integer getParking_lot_id_seq() {
+//		parking_lot_id_seq+=1;
+//		return parking_lot_id_seq;
+//	}
 
 
 	public Integer getNo_of_floors() {

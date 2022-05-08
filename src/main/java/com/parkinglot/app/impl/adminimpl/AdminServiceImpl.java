@@ -5,17 +5,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.parkinglot.app.model.ParkingFloor;
 import com.parkinglot.app.model.Parkinglot;
+import com.parkinglot.app.repository.ParkinglotRepository;
 import com.parkinglot.app.service.adminservice.AdminService;
 
 @Service
 public class AdminServiceImpl implements AdminService{
-
 	
+	@Autowired
+	private ParkinglotRepository parkinglotRepository; 
+	
+    @Transactional
 	public Parkinglot createParkingLot (Map<String, Object> data) {
 		
 		
@@ -54,7 +61,8 @@ public class AdminServiceImpl implements AdminService{
 				 									address,
 				 									two_wheeler_fees,
 				 									four_wheeler_fees);
-		 
+
+		 parkinglotRepository.save(parking_lot);
 		return  parking_lot;
 	}
 	

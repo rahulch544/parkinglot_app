@@ -20,6 +20,7 @@ public class AdminController {
 	@Autowired
 	private AdminService adminService;
 	
+
 	
 	@PostMapping("/createParkingLot")
 	public String createParkingLot(@RequestBody(required = true) Map<String, Object> data) {
@@ -27,6 +28,7 @@ public class AdminController {
 		Parkinglot parkinglot = adminService.createParkingLot(data);
 		
 		AdminService.parkinglot_map.put(parkinglot.getParking_lot_id(), parkinglot);
+//		parkinglotRepository.save(parkinglot);
 		
 		return (parkinglot.getParking_lot_id()).toString();
 	}
